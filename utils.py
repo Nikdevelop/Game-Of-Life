@@ -1,14 +1,16 @@
 import pygame
-import copy
+import numba
+import numpy as np
 
 
-def fill_grid(screen: pygame.Surface, grid: list, cell_size: tuple, dead_color: tuple, alive_color: tuple):
+def fill_grid(screen: pygame.Surface, grid: np.ndarray, cell_size: tuple, dead_color: tuple, alive_color: tuple):
     for y in range(len(grid)):
         for x in range(len(grid[0])):
             pygame.draw.rect(screen, alive_color if grid[y][x] == 1 else dead_color, (x*cell_size, y*cell_size, cell_size, cell_size))
 
 
-def calc(grid: list, pos: tuple):
+@numba.njit
+def calc(grid: np.ndarray, pos: tuple):
     x, y = pos[0], pos[1]
 
     count = 0
@@ -30,8 +32,9 @@ def calc(grid: list, pos: tuple):
     return 0
 
 
-def update(grid: list):
-    newgrd = copy.deepcopy(grid)
+@numba.njit
+def update(grid: np.ndarray):
+    newgrd = grid.copy()
     for y in range(len(grid)):
         for x in range(len(grid[0])):
             newgrd[y][x] = calc(grid, (x, y))
@@ -49,7 +52,7 @@ def draw_grid(screen: pygame.Surface, x_cnt: int, y_cnt: int, grid_color: tuple,
                         (width, c*cell_size), thickness)
 
 
-def create_life(grid: list, cell_size: int):
+def create_life(grid: np.ndarray, cell_size: int):
     cx, cy = pygame.mouse.get_pos()
     grid[cy//cell_size][cx//cell_size] = 1
 
