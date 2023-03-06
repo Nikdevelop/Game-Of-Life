@@ -6,7 +6,8 @@ import numpy as np
 def fill_grid(screen: pygame.Surface, grid: np.ndarray, cell_size: tuple, dead_color: tuple, alive_color: tuple):
     for y in range(len(grid)):
         for x in range(len(grid[0])):
-            pygame.draw.rect(screen, alive_color if grid[y][x] == 1 else dead_color, (x*cell_size, y*cell_size, cell_size, cell_size))
+            if grid[y][x] == 1:
+                pygame.draw.rect(screen, alive_color, (x*cell_size, y*cell_size, cell_size, cell_size))
 
 
 @numba.njit
@@ -57,10 +58,5 @@ def create_life(grid: np.ndarray, cell_size: int):
     grid[cy//cell_size][cx//cell_size] = 1
 
 
-def is_start_clicked(screen: pygame.Surface, cell_size: int):
-    size = screen.get_size()
-    cx, cy = pygame.mouse.get_pos()
-
-    if size[0]//cell_size == cx//cell_size+1 and 0 == cy//cell_size:
-        return True
-    return False
+def change_edit_mode(mode):
+    mode[0] = not mode[0]
