@@ -3,30 +3,31 @@ from random import choices
 import utils
 import time
 import numpy as np
-import keyboard
+# import keyboard
+# import pynput.keyboard as keyboard
 
 # Colors
 WHITE = (255, 255, 255)
 BACKGROUND = (24, 24, 33)
 CELL_ALIVE = (255, 108, 63)
 CELL_DEAD = (0, 0, 0)
-# GRID = (50, 50, 50)
-GRID = (24, 24, 33)
+GRID = (50, 50, 50)
+# GRID = (24, 24, 33)
 
 # Parameters
 WIDTH, HEIGHT = 1500, 1000
 CELL_SIZE = 8
-GRID_THICKNESS = 2
+GRID_THICKNESS = 1
 FPS = 10
 RANDOMIZE = True
-EDITOR_MODE = True
+EDITOR_MODE = False
 
 cell_x_cnt, cell_y_cnt = round(WIDTH / CELL_SIZE), round(HEIGHT / CELL_SIZE)
 grid = np.array([choices([0, 1], k=cell_x_cnt) if RANDOMIZE else [
                 0] * cell_x_cnt for _ in range(cell_y_cnt)])
 
 _editor_mode = [EDITOR_MODE]
-keyboard.add_hotkey('space', utils.change_edit_mode, (_editor_mode, ))
+# keyboard.add_hotkey('space', utils.change_edit_mode, (_editor_mode, ))
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))

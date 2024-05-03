@@ -1,5 +1,4 @@
 import pygame
-import numba
 import numpy as np
 
 
@@ -10,7 +9,6 @@ def fill_grid(screen: pygame.Surface, grid: np.ndarray, cell_size: tuple, dead_c
                 pygame.draw.rect(screen, alive_color, (x*cell_size, y*cell_size, cell_size, cell_size))
 
 
-@numba.njit
 def calc(grid: np.ndarray, pos: tuple):
     x, y = pos[0], pos[1]
 
@@ -33,7 +31,6 @@ def calc(grid: np.ndarray, pos: tuple):
     return 0
 
 
-@numba.njit
 def update(grid: np.ndarray):
     newgrd = grid.copy()
     for y in range(len(grid)):
