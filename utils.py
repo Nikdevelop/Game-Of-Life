@@ -2,19 +2,29 @@ import pygame
 import numpy as np
 
 
-def fill_grid(screen: pygame.Surface, grid: np.ndarray, cell_size: tuple, dead_color: tuple, alive_color: tuple):
+def fill_grid(
+    screen: pygame.Surface,
+    grid: np.ndarray,
+    cell_size: tuple,
+    dead_color: tuple,
+    alive_color: tuple,
+):
     for y in range(len(grid)):
         for x in range(len(grid[0])):
             if grid[y][x] == 1:
-                pygame.draw.rect(screen, alive_color, (x*cell_size, y*cell_size, cell_size, cell_size))
+                pygame.draw.rect(
+                    screen,
+                    alive_color,
+                    (x * cell_size, y * cell_size, cell_size, cell_size),
+                )
 
 
 def calc(grid: np.ndarray, pos: tuple):
     x, y = pos[0], pos[1]
 
     count = 0
-    for i in range(max(0, y-1), min(len(grid), y+2)):
-        for j in range(max(0, x-1), min(len(grid[0]), x+2)):
+    for i in range(max(0, y - 1), min(len(grid), y + 2)):
+        for j in range(max(0, x - 1), min(len(grid[0]), x + 2)):
             if i == y and j == x:
                 continue
             if grid[i][j] == 1:
@@ -39,20 +49,29 @@ def update(grid: np.ndarray):
     return newgrd
 
 
-def draw_grid(screen: pygame.Surface, x_cnt: int, y_cnt: int, grid_color: tuple, cell_size: int, thickness: int):
+def draw_grid(
+    screen: pygame.Surface,
+    x_cnt: int,
+    y_cnt: int,
+    grid_color: tuple,
+    cell_size: int,
+    thickness: int,
+):
     width, height = screen.get_size()
     for c in range(x_cnt):
-        pygame.draw.line(screen, grid_color, (c*cell_size, 0),
-                        (c*cell_size, height), thickness)
+        pygame.draw.line(
+            screen, grid_color, (c * cell_size, 0), (c * cell_size, height), thickness
+        )
 
     for c in range(y_cnt):
-        pygame.draw.line(screen, grid_color, (0, c*cell_size),
-                        (width, c*cell_size), thickness)
+        pygame.draw.line(
+            screen, grid_color, (0, c * cell_size), (width, c * cell_size), thickness
+        )
 
 
 def create_life(grid: np.ndarray, cell_size: int):
     cx, cy = pygame.mouse.get_pos()
-    grid[cy//cell_size][cx//cell_size] = 1
+    grid[cy // cell_size][cx // cell_size] = 1
 
 
 def change_edit_mode(mode):
